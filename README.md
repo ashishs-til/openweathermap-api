@@ -1,3 +1,3 @@
-# openweather_api
+# openweathermap_api
 
-Python Script to access weather API from openweather
+Python Script to access weather APIs from openweathermap.org
