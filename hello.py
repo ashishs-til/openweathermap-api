@@ -1,9 +1,16 @@
 import requests
 import constants
+import json
 
-resp = requests.get(constants.url_forecast_api+constants.city_ids.get("Delhi"))
+resp = requests.get(constants.url_weather_api+constants.city_ids.get("Delhi"))
 
 if resp.status_code == 200:
-    print resp.json()
+    response = json.loads(resp.text)
+    print(response["name"])
+    weather = response["weather"]
+    print(weather[0]["main"])
+    climate = response["main"]
+    print(climate["temp"])
+    print(climate["humidity"])
 else:
     exit(0)
