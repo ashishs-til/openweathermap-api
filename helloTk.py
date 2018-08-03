@@ -1,20 +1,37 @@
 import tkinter as tk
 import constants
-
+import json
+import requests
 
 root = tk.Tk()
 root.title("OpenWeather")
 root.minsize(360, 360)
 
-
 # Exit btn
 btn_exit = tk.Button(text="Exit", width=15, pady=3, fg="#a9a9a9", command=root.destroy)
 btn_exit.pack(side="bottom")
+
+
 # Radio btn
+def print_response(resp):
+    place = resp['city']['name'] + ", " + resp['city']['country']
+    print(place)
+    for item in resp['list']:
+        output = item['weather'][0]['description'] + ", temp: %.2f"%(item['main']['temp'] - 273.15) \
+                 + ", humidity: %d"%(item['main']['humidity'])
+        print output
+        print("---")
 
 
 def get_city_weather():
-    print(constants.url_forecast_api+id_city_selected.get())
+    url = constants.url_forecast_api + id_city_selected.get()
+    req = requests.get(url)
+    print(url)
+    if req.status_code == 200:
+        resp = json.loads(req.text)
+        print_response(resp)
+    else:
+        resp = None
 
 
 id_city_selected = tk.StringVar()
@@ -26,5 +43,5 @@ for key in constants.city_ids.keys():
 
 # Display Weather area
 
-#Get Weather btn
+# Get Weather btn
 root.mainloop()
